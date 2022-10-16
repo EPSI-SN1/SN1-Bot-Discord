@@ -19,11 +19,9 @@ export class GamingManager {
         const guild = interaction.guild as Guild;
         const options = [] as MessageSelectOptionData[];
 
-        let step = 0;
         for (const roles of this.gamingRoles) {
             const role = guild.roles.cache.find(r => r.id === roles) as Role;
-            options[step] = await this.optionsBuilder(role.name, roles); //Giving name for the label and id for the value
-            step++;
+            options.push(await this.optionsBuilder(role.name, roles)); //Giving name for the label and id for the value
         }
 
         const row = new MessageActionRow().addComponents(
