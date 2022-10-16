@@ -53,8 +53,8 @@ export class GamingManager {
         const addedRoles = [] as Array<Role>;
         const deletedRoles = [] as Array<Role>;
 
-        if (!member.roles.cache.some(rl => rl.name === separatorRole.name)) {
-            await member.roles.add(separatorRole);
+        if (!member.roles.cache.some(rl => rl.id === separatorRole.id)) {
+            addedRoles.push(separatorRole);
         }
 
         roles.forEach(id => {
