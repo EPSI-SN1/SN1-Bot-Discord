@@ -31,6 +31,7 @@
     "@discord-factory/core-next": "^4.0.1",
     "@discordjs/opus": "^0.8.0",
     "@leadcodedev/logger": "^1.0.0",
+    "discord-menus": "^1.0.8",
     "discord-modals": "^1.3.7",
     "discord-music-player": "^9.1.1",
     "discord.js": "13.6.0",

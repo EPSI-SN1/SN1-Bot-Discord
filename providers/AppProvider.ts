@@ -2,6 +2,7 @@ import {BaseProvider, EntityResolvable} from 'ioc:factory/Core/Provider'
 import {Application} from "ioc:factory/Core";
 import Logger from '@leadcodedev/logger'
 import {MusicManager} from "App/modules/music/MusicManager";
+import {GamingManager} from "App/modules/gaming/GamingManager";
 
 const discordModals = require('discord-modals');
 const { Player } = require("discord-music-player");
