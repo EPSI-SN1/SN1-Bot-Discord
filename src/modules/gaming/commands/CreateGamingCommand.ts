@@ -6,7 +6,7 @@ import {GamingManager} from "App/modules/gaming/GamingManager";
     scope: 'GUILDS',
     options: {
         name: 'create-gaming-roles',
-        description: "Mettre en place l'embed du choix des roles gaming",
+        description: "Créer un role gaming",
         options: [
             {
                 name: 'name',

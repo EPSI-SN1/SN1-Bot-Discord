@@ -76,7 +76,7 @@ export class GamingManager {
 
     public static async createRole(interaction: CommandInteraction, name: string): Promise<void> {
         const guild = interaction.guild as Guild;
-        const file = editJsonFile(`../../../config.json`);
+        //const file = editJsonFile(`../../../config.json`);
 
         if (guild.roles.cache.some(roles => roles.name.toLowerCase() === name.toLowerCase())) {
             await interaction.reply({content: `Le rôle gaming **${name}** existe déjà.`, ephemeral: true});
@@ -89,8 +89,8 @@ export class GamingManager {
         }) as Role;
 
         this.gamingRoles.push(newRole.id);
-        await file.append("gaming.roles", newRole.id);
-        await file.save();
+        //await file.append("gaming.roles", newRole.id);
+        //await file.save();
 
         await interaction.reply({content: `Le rôle gaming **${name}** vient d'être crée.`});
     }
