@@ -56,13 +56,13 @@ export class GamingManager {
             await member.roles.add(separatorRole);
         }
 
-        for (const roleId of roles) {
-            const role = guild.roles.cache.find(r => r.id === roleId) as Role;
+        roles.forEach(id => {
+            const role = guild.roles.cache.find(r => r.id === id) as Role;
 
             if (member.roles.cache.some(rl => rl.name === role.name)) {
                 deletedRoles.push(role);
             } else addedRoles.push(role);
-        }
+        })
 
         await member.roles.add(addedRoles);
         await member.roles.remove(deletedRoles);
