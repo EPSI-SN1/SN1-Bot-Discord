@@ -45,6 +45,8 @@ export class GamingManager {
             ],
             components: [row]
         });
+
+        await interaction.reply({content: 'Crée avec succès !', ephemeral: true});
     }
 
     public static async giveRole(interaction: SelectMenuInteraction, roles: Array<string>): Promise<void> {
