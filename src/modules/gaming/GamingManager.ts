@@ -51,8 +51,8 @@ export class GamingManager {
         const member = interaction.member as GuildMember;
         const separatorRole = guild.roles.cache.find(r => r.id === config.gaming.seperator_group) as Role;
 
-        let addedRoles = "";
-        let deletedRoles = "";
+        const addedRoles = [] as Array<Role>;
+        const deletedRoles = [] as Array<Role>;
 
         if (!member.roles.cache.some(rl => rl.name === separatorRole.name)) {
             await member.roles.add(separatorRole);
@@ -62,19 +62,15 @@ export class GamingManager {
             const role = guild.roles.cache.find(r => r.id === roleId) as Role;
 
             if (member.roles.cache.some(rl => rl.name === role.name)) {
-                await member.roles.remove(role);
-                deletedRoles += role.name + ", ";
-            } else {
-                await member.roles.add(role);
-                addedRoles += role.name + ", ";
-            }
+                deletedRoles.push(role);
+            } else addedRoles.push(role);
         }
 
-        if (addedRoles === "") addedRoles = "Aucun";
-        if (deletedRoles === "") deletedRoles = "Aucun";
+        await member.roles.add(addedRoles);
+        await member.roles.remove(deletedRoles);
 
         await interaction.reply({
-            content: `**Roles ajoutés**: ${addedRoles}. **Roles supprimés**: ${deletedRoles}.`,
+            content: `**Roles ajoutés**: ${addedRoles.join("")}. **Roles supprimés**: ${deletedRoles.join("")}.`,
             ephemeral: true
         });
     }
