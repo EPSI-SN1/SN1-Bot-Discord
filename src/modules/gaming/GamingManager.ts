@@ -57,9 +57,9 @@ export class GamingManager {
         }
 
         roles.forEach(id => {
-            const role = guild.roles.cache.find(r => r.id === id) as Role;
+            const role = guild.roles.cache.find(roles => roles.id === id) as Role;
 
-            if (member.roles.cache.some(rl => rl.name === role.name)) {
+            if (member.roles.cache.some(roles => roles.name === role.name)) {
                 deletedRoles.push(role);
             } else addedRoles.push(role);
         })
