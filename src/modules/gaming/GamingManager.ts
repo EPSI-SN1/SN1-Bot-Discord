@@ -17,13 +17,11 @@ export class GamingManager {
 
     public static async sendEmbed(interaction: CommandInteraction): Promise<void> {
         const guild = interaction.guild as Guild;
-        const options = [{}] as MessageSelectOptionData[];
+        const options = [] as MessageSelectOptionData[];
 
-        let step = 0;
         for (const roles of this.gamingRoles) {
             const role = guild.roles.cache.find(r => r.id === roles) as Role;
-            options[step] = this.optionsBuilder(role.name, roles); //Giving name for the label and id for the value
-            step++;
+            options.push(await this.optionsBuilder(role.name, roles)); //Giving name for the label and id for the value
         }
 
         const row = new MessageActionRow().addComponents(
@@ -58,13 +56,13 @@ export class GamingManager {
             await member.roles.add(separatorRole);
         }
 
-        for (const roleId of roles) {
-            const role = guild.roles.cache.find(r => r.id === roleId) as Role;
+        roles.forEach(id => {
+            const role = guild.roles.cache.find(r => r.id === id) as Role;
 
             if (member.roles.cache.some(rl => rl.name === role.name)) {
                 deletedRoles.push(role);
             } else addedRoles.push(role);
-        }
+        })
 
         await member.roles.add(addedRoles);
         await member.roles.remove(deletedRoles);
@@ -75,7 +73,7 @@ export class GamingManager {
         });
     }
 
-    private static optionsBuilder(label: string, value: string) {
+    private static async optionsBuilder(label: string, value: string): Promise<MessageSelectOptionData> {
         return {
             label: label,
             value: value,
