@@ -4,7 +4,7 @@ import {
     GuildMember,
     MessageActionRow,
     MessageEmbed,
-    MessageSelectMenu,
+    MessageSelectMenu, MessageSelectOptionData,
     Role,
     SelectMenuInteraction
 } from "discord.js";
@@ -16,13 +16,11 @@ export class GamingManager {
 
     public static async sendEmbed(interaction: CommandInteraction): Promise<void> {
         const guild = interaction.guild as Guild;
-        const options = [{}] as Array<{}>;
+        const options = [{}] as MessageSelectOptionData[];
 
         let step = 0;
-
         for (const roles of this.gamingRoles) {
             const role = guild.roles.cache.find(r => r.id === roles) as Role;
-
             options[step] = this.optionsBuilder(role.name, roles); //Giving name for the label and id for the value
             step++;
         }
@@ -31,7 +29,6 @@ export class GamingManager {
             new MessageSelectMenu()
                 .setCustomId('gaming')
                 .setPlaceholder('Choisi les jeux auxquels tu joues')
-                // @ts-ignore
                 .addOptions(options)
                 .setMinValues(1)
                 .setMaxValues(3)
