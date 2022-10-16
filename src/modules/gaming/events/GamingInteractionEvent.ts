@@ -5,10 +5,8 @@ import {GamingManager} from "App/modules/gaming/GamingManager";
 @Event('interactionCreate')
 export default class GamingInteractionEvent extends BaseEvent {
     public async run(interaction: SelectMenuInteraction): Promise<void> {
-
         if (interaction.customId === 'gaming') {
-            await GamingManager.giveRole(interaction, interaction.values);
+            await GamingManager.checkRole(interaction, interaction.values);
         }
-
     }
 }

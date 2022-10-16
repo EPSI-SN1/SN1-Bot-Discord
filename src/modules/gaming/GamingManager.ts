@@ -49,13 +49,17 @@ export class GamingManager {
         await interaction.reply({content: 'Crée avec succès !', ephemeral: true});
     }
 
-    public static async giveRole(interaction: SelectMenuInteraction, roles: Array<string>): Promise<void> {
+    public static async checkRole(interaction: SelectMenuInteraction, roles: Array<string>): Promise<void> {
         const guild = interaction.guild as Guild;
         const member = interaction.member as GuildMember;
         const separatorRole = guild.roles.cache.find(r => r.id === config.gaming.seperator_group) as Role;
 
         let addedRoles = "";
         let deletedRoles = "";
+
+        if (!member.roles.cache.some(rl => rl.name === separatorRole.name)) {
+            await member.roles.add(separatorRole);
+        }
 
         for (const roleId of roles) {
             const role = guild.roles.cache.find(r => r.id === roleId) as Role;
@@ -64,7 +68,6 @@ export class GamingManager {
                 await member.roles.remove(role);
                 deletedRoles += role.name + ", ";
             } else {
-                await member.roles.add(separatorRole);
                 await member.roles.add(role);
                 addedRoles += role.name + ", ";
             }
