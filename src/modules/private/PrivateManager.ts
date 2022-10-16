@@ -20,8 +20,8 @@ export class PrivateManager {
     }
 
     public static async leavePrivateRoom(member: GuildMember, channel: GuildChannel): Promise<void> {
-        if(!channel.name.startsWith("Salon de ")) return;
-        if(channel.members.size < 1) return;
+        if (!channel.name.startsWith("Salon de ")) return;
+        if (channel.members.size < 1) return;
 
         await channel.delete();
     }

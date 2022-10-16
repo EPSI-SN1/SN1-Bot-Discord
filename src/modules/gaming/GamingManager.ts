@@ -4,7 +4,8 @@ import {
     GuildMember,
     MessageActionRow,
     MessageEmbed,
-    MessageSelectMenu, MessageSelectOptionData,
+    MessageSelectMenu,
+    MessageSelectOptionData,
     Role,
     SelectMenuInteraction
 } from "discord.js";
@@ -31,7 +32,6 @@ export class GamingManager {
                 .setPlaceholder('Choisi les jeux auxquels tu joues')
                 .addOptions(options)
                 .setMinValues(1)
-                .setMaxValues(3)
         )
 
         await interaction.channel!.send({
