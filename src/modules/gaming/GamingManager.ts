@@ -11,6 +11,7 @@ import {
 } from "discord.js";
 
 const config = require('../../../config.json');
+const editJsonFile = require("edit-json-file");
 
 export class GamingManager {
     private static gamingRoles = config.gaming.roles as Array<string>;
@@ -71,6 +72,27 @@ export class GamingManager {
             content: `**Roles ajoutés**: ${addedRoles.join("")}. **Roles supprimés**: ${deletedRoles.join("")}.`,
             ephemeral: true
         });
+    }
+
+    public static async createRole(interaction: CommandInteraction, name: string): Promise<void> {
+        const guild = interaction.guild as Guild;
+        const file = editJsonFile(`../../../config.json`);
+
+        if (guild.roles.cache.some(roles => roles.name.toLowerCase() === name.toLowerCase())) {
+            await interaction.reply({content: `Le rôle gaming **${name}** existe déjà.`, ephemeral: true});
+            return;
+        }
+
+        const newRole = await guild.roles.create({
+            name: name,
+            mentionable: true,
+        }) as Role;
+
+        this.gamingRoles.push(newRole.id);
+        await file.append("gaming.roles", newRole.id);
+        await file.save();
+
+        await interaction.reply({content: `Le rôle gaming **${name}** vient d'être crée.`});
     }
 
     private static async optionsBuilder(label: string, value: string): Promise<MessageSelectOptionData> {
