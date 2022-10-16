@@ -17,12 +17,12 @@ export class GamingManager {
 
     public static async sendEmbed(interaction: CommandInteraction): Promise<void> {
         const guild = interaction.guild as Guild;
-        const options = [{}] as MessageSelectOptionData[];
+        const options = [] as MessageSelectOptionData[];
 
         let step = 0;
         for (const roles of this.gamingRoles) {
             const role = guild.roles.cache.find(r => r.id === roles) as Role;
-            options[step] = this.optionsBuilder(role.name, roles); //Giving name for the label and id for the value
+            options[step] = await this.optionsBuilder(role.name, roles); //Giving name for the label and id for the value
             step++;
         }
 
@@ -75,7 +75,7 @@ export class GamingManager {
         });
     }
 
-    private static optionsBuilder(label: string, value: string) {
+    private static async optionsBuilder(label: string, value: string): Promise<MessageSelectOptionData> {
         return {
             label: label,
             value: value,
