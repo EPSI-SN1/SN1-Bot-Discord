@@ -21,9 +21,15 @@ export class PrivateManager {
 
     public static async leavePrivateRoom(member: GuildMember, channel: VoiceBasedChannel): Promise<void> {
         if (!channel.name.startsWith("Salon de ")) return;
-        if (channel.members.size < 1) return;
 
-        await channel.delete().catch(err => console.log(err));
+        setTimeout(async () => {
+            if (channel != null) {
+                if (channel.members.size > 1)
+                    return;
+
+                await channel.delete().catch(err => console.log(err));
+            }
+        }, 1000);
     }
 
 }
