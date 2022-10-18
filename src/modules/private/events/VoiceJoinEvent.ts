@@ -1,5 +1,5 @@
 import {BaseEvent, Event} from 'ioc:factory/Core/Event'
-import {GuildMember, VoiceChannel, VoiceState} from "discord.js";
+import {GuildMember, VoiceBasedChannel, VoiceState} from "discord.js";
 import {PrivateManager} from "App/modules/private/PrivateManager";
 
 const config = require('../../../../config.json');
@@ -8,7 +8,7 @@ const config = require('../../../../config.json');
 export default class VoiceJoinEvent extends BaseEvent {
     public async run(state: VoiceState): Promise<void> {
         const member = state.member as GuildMember;
-        const channel = state.channel as VoiceChannel;
+        const channel = state.channel as VoiceBasedChannel;
 
         if (member == null || channel == null) {
             return;

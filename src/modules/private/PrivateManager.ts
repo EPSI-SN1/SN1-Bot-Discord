@@ -1,4 +1,4 @@
-import {CategoryChannelResolvable, Guild, GuildMember, VoiceChannel} from "discord.js";
+import {CategoryChannelResolvable, Guild, GuildMember, VoiceBasedChannel} from "discord.js";
 
 const config = require('../../../config.json');
 
@@ -19,7 +19,7 @@ export class PrivateManager {
         await member.voice.setChannel(channel).catch(err => console.log(err));
     }
 
-    public static async leavePrivateRoom(member: GuildMember, channel: VoiceChannel): Promise<void> {
+    public static async leavePrivateRoom(member: GuildMember, channel: VoiceBasedChannel): Promise<void> {
         if (!channel.name.startsWith("Salon de ")) return;
         if (channel.members.size < 1) return;
 
