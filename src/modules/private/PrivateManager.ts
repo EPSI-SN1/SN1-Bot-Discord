@@ -1,4 +1,4 @@
-import {CategoryChannelResolvable, Guild, GuildChannel, GuildMember} from "discord.js";
+import {CategoryChannelResolvable, Guild, GuildMember, VoiceChannel} from "discord.js";
 
 const config = require('../../../config.json');
 
@@ -14,12 +14,12 @@ export class PrivateManager {
 
         await channel.permissionOverwrites.create(member, {
             MANAGE_CHANNELS: true,
-        });
+        }).catch(err => console.log(err));
 
-        await member.voice.setChannel(channel);
+        await member.voice.setChannel(channel).catch(err => console.log(err));
     }
 
-    public static async leavePrivateRoom(member: GuildMember, channel: GuildChannel): Promise<void> {
+    public static async leavePrivateRoom(member: GuildMember, channel: VoiceChannel): Promise<void> {
         if (!channel.name.startsWith("Salon de ")) return;
         if (channel.members.size < 1) return;
 
