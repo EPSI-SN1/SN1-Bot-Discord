@@ -23,7 +23,7 @@ export class PrivateManager {
         if (!channel.name.startsWith("Salon de ")) return;
         if (channel.members.size < 1) return;
 
-        await channel.delete();
+        await channel.delete().catch(err => console.log(err));
     }
 
 }

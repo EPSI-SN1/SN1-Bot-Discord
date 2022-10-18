@@ -11,6 +11,10 @@ export default class VoiceLeftEvent extends BaseEvent {
         const channel = state.channel as GuildChannel;
         const channelParent = channel.parent as CategoryChannel;
 
+        if (member == null || channelParent == null) {
+            return;
+        }
+
         if (channelParent.id === config.private.parent) {
             await PrivateManager.leavePrivateRoom(member, channel);
         }

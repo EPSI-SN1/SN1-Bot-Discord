@@ -10,6 +10,10 @@ export default class VoiceJoinEvent extends BaseEvent {
         const member = state.member as GuildMember;
         const channel = state.channel as Channel;
 
+        if (member == null || channel == null) {
+            return;
+        }
+
         if (channel.id === config.private.create) {
             await PrivateManager.createPrivateRoom(member);
         }
