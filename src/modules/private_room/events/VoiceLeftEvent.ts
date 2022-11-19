@@ -1,6 +1,6 @@
 import {BaseEvent, Event} from 'ioc:factory/Core/Event'
 import {CategoryChannel, GuildMember, VoiceBasedChannel, VoiceState} from "discord.js";
-import {PrivateManager} from "App/modules/private/PrivateManager";
+import {PrivateManager} from "App/modules/private_room/PrivateManager";
 
 const config = require('../../../../config.json');
 

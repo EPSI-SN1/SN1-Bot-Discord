@@ -1,6 +1,6 @@
 import {BaseCommand, Command} from 'ioc:factory/Core/Command'
 import {Channel, CommandInteraction, GuildMember, TextChannel} from 'discord.js'
-import {MusicManager} from "App/modules/music/MusicManager";
+import {MusicManager} from "App/modules/music_player/MusicManager";
 
 @Command({
     scope: 'GUILDS',
@@ -31,6 +31,10 @@ export default class PlayCommand extends BaseCommand {
             return;
         }
 
-        await interaction.reply({content: 'Votre lien est invalide.', ephemeral: true});
+        await interaction.reply({
+                content: 'Votre lien est invalide.',
+                ephemeral: true
+            }
+        );
     }
 }

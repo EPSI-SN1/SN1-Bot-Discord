@@ -1,6 +1,6 @@
 import {BaseEvent, Event} from 'ioc:factory/Core/Event'
 import {GuildMember, Interaction, Role} from 'discord.js'
-import {RolesManager} from "App/modules/roles/RolesManager";
+import {RolesManager} from "App/modules/class_roles/RolesManager";
 
 const config = require('../../../../config.json');
 
@@ -11,9 +11,12 @@ export default class RolesInteractionEvent extends BaseEvent {
 
         const member = interaction.member as GuildMember;
 
-        const group1Role = member.guild.roles.cache.find(r => r.id === config.roles.group1) as Role;
-        const group2Role = member.guild.roles.cache.find(r => r.id === config.roles.group2) as Role;
-        const separatorRole = member.guild.roles.cache.find(r => r.id === config.roles.separator_group) as Role;
+        const group1Role = member.guild.roles.cache
+            .find(r => r.id === config.roles.group1) as Role;
+        const group2Role = member.guild.roles.cache
+            .find(r => r.id === config.roles.group2) as Role;
+        const separatorRole = member.guild.roles.cache
+            .find(r => r.id === config.roles.separator_group) as Role;
 
         switch (interaction.customId) {
             case "group1": {
@@ -24,7 +27,11 @@ export default class RolesInteractionEvent extends BaseEvent {
 
                 await member.roles.add(group1Role);
                 await member.roles.add(separatorRole);
-                await interaction.reply({content: 'Vous venez de vous ajouter ce rôle.', ephemeral: true});
+                await interaction.reply({
+                        content: 'Vous venez de vous ajouter ce rôle.',
+                        ephemeral: true
+                    }
+                );
                 break;
             }
             case "group2": {
@@ -35,7 +42,11 @@ export default class RolesInteractionEvent extends BaseEvent {
 
                 await member.roles.add(group2Role);
                 await member.roles.add(separatorRole);
-                await interaction.reply({content: 'Vous venez de vous ajouter ce rôle.', ephemeral: true});
+                await interaction.reply({
+                        content: 'Vous venez de vous ajouter ce rôle.',
+                        ephemeral: true
+                    }
+                );
                 break;
             }
         }

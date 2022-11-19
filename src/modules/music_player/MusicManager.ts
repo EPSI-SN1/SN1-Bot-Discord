@@ -7,13 +7,18 @@ export class MusicManager {
     public static currentChannel = "" as string;
     public static currentTextChannel = "" as string;
 
-    public static async play(interaction: CommandInteraction, channel: Channel, textChannel: TextChannel, song: string): Promise<void> {
+    public static async play(interaction: CommandInteraction, channel: Channel,
+                             textChannel: TextChannel, song: string): Promise<void> {
         const isConnected = interaction.client.voice.adapters.size > 0 as boolean;
         const guild = interaction.guild as Guild;
 
         if (isConnected) {
             if (this.currentChannel !== channel.id) {
-                await interaction.reply({content: "Je ne suis pas dans votre salon.", ephemeral: true});
+                await interaction.reply({
+                        content: "Je ne suis pas dans votre salon.",
+                        ephemeral: true
+                    }
+                );
                 return;
             }
         } else {
@@ -39,7 +44,11 @@ export class MusicManager {
 
         if (isConnected) {
             if (this.currentChannel !== channel.id) {
-                await interaction.reply({content: "Je ne suis pas dans votre salon.", ephemeral: true});
+                await interaction.reply({
+                        content: "Je ne suis pas dans votre salon.",
+                        ephemeral: true
+                    }
+                );
                 return;
             }
 
@@ -48,11 +57,19 @@ export class MusicManager {
             guildQueue?.stop();
             this.currentChannel = "";
 
-            await interaction.reply({content: "Vous venez d'arrêter la musique.", ephemeral: true});
+            await interaction.reply({
+                    content: "Vous venez d'arrêter la musique.",
+                    ephemeral: true
+                }
+            );
             return;
         }
 
-        await interaction.reply({content: "Je ne joue aucune musique.", ephemeral: true});
+        await interaction.reply({
+                content: "Je ne joue aucune musique.",
+                ephemeral: true
+            }
+        );
     }
 
     public static async queue(interaction: CommandInteraction, channel: Channel): Promise<void> {
@@ -61,7 +78,11 @@ export class MusicManager {
 
         if (isConnected) {
             if (this.currentChannel !== channel.id) {
-                await interaction.reply({content: "Je ne suis pas dans votre salon.", ephemeral: true});
+                await interaction.reply({
+                        content: "Je ne suis pas dans votre salon.",
+                        ephemeral: true
+                    }
+                );
                 return;
             }
 
@@ -77,7 +98,11 @@ export class MusicManager {
             return;
         }
 
-        await interaction.reply({content: "Je ne joue aucune musique.", ephemeral: true});
+        await interaction.reply({
+                content: "Je ne joue aucune musique.",
+                ephemeral: true
+            }
+        );
     }
 
     public static async skip(interaction: CommandInteraction, channel: Channel): Promise<void> {
@@ -86,7 +111,11 @@ export class MusicManager {
 
         if (isConnected) {
             if (this.currentChannel !== channel.id) {
-                await interaction.reply({content: "Je ne suis pas dans votre salon.", ephemeral: true});
+                await interaction.reply({
+                        content: "Je ne suis pas dans votre salon.",
+                        ephemeral: true
+                    }
+                );
                 return;
             }
 
@@ -94,20 +123,29 @@ export class MusicManager {
 
             guildQueue?.skip();
 
-            await interaction.reply({content: `Je viens de passer à la musique suivante **${guildQueue.songs[1].name}**.`});
+            await interaction.reply({
+                    content: `Je viens de passer à la musique suivante **${guildQueue.songs[1].name}**.`
+                }
+            );
             return;
         }
 
-        await interaction.reply({content: "Je ne joue aucune musique.", ephemeral: true});
+        await interaction.reply({
+                content: "Je ne joue aucune musique.",
+                ephemeral: true
+            }
+        );
     }
 
     public static async launchEvent(): Promise<void> {
-        this.player.on('songChanged', async (queue: Queue, newSong: Song, oldSong: Song) => {
+        this.player.on('songChanged', async (queue: Queue, newSong: Song) => {
             const channel = this.player.client.channels.cache.get(this.currentChannel) as TextChannel;
+
             if (channel != null) {
                 await channel.send(`Je joue actuellement la musique **${newSong}**.`).then(msg => {
-                    setTimeout(async () => await msg.delete(), newSong.milliseconds);
-                });
+                        setTimeout(async () => await msg.delete(), newSong.milliseconds);
+                    }
+                );
             }
         });
     }

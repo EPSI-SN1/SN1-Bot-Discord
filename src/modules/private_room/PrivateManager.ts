@@ -14,9 +14,9 @@ export class PrivateManager {
 
         await channel.permissionOverwrites.create(member, {
             MANAGE_CHANNELS: true,
-        }).catch(err => console.log(err));
+        });
 
-        await member.voice.setChannel(channel).catch(err => console.log(err));
+        await member.voice.setChannel(channel);
     }
 
     public static async leavePrivateRoom(member: GuildMember, channel: VoiceBasedChannel): Promise<void> {
@@ -27,7 +27,7 @@ export class PrivateManager {
                 if (channel.members.size > 1)
                     return;
 
-                await channel.delete().catch(err => console.log(err));
+                await channel.delete();
             }
         }, 1000);
     }

@@ -1,12 +1,12 @@
 import {BaseCommand, Command} from 'ioc:factory/Core/Command'
-import {CommandInteraction, Guild, Role} from "discord.js";
-import {GamingManager} from "App/modules/gaming/GamingManager";
+import {CommandInteraction} from "discord.js";
+import {GamingManager} from "App/modules/gaming_roles/GamingManager";
 
 @Command({
     scope: 'GUILDS',
     options: {
-        name: 'create-gaming-roles',
-        description: "Créer un role gaming",
+        name: 'create-gaming_roles-class_roles',
+        description: "Créer un role gaming_roles",
         options: [
             {
                 name: 'name',
@@ -26,6 +26,10 @@ export default class SetupRolesCommand extends BaseCommand {
             return;
         }
 
-        await interaction.reply({content: 'Le nom est invalide.', ephemeral: true});
+        await interaction.reply({
+                content: 'Le nom est invalide.',
+                ephemeral: true
+            }
+        );
     }
 }

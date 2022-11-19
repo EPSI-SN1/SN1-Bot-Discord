@@ -11,7 +11,6 @@ import {
 } from "discord.js";
 
 const config = require('../../../config.json');
-const editJsonFile = require("edit-json-file");
 
 export class GamingManager {
     private static gamingRoles = config.gaming.roles as Array<string>;
@@ -22,12 +21,12 @@ export class GamingManager {
 
         for (const roles of this.gamingRoles) {
             const role = guild.roles.cache.find(r => r.id === roles) as Role;
-            options.push(await this.optionsBuilder(role.name, roles)); //Giving name for the label and id for the value
+            options.push(await this.optionsBuilder(role.name, roles));
         }
 
         const row = new MessageActionRow().addComponents(
             new MessageSelectMenu()
-                .setCustomId('gaming')
+                .setCustomId('gaming_roles')
                 .setPlaceholder('Choisi les jeux auxquels tu joues')
                 .addOptions(options)
                 .setMinValues(1)
@@ -42,13 +41,19 @@ export class GamingManager {
             components: [row]
         });
 
-        await interaction.reply({content: 'Crée avec succès !', ephemeral: true});
+        await interaction.reply({
+                content: 'Crée avec succès !',
+                ephemeral: true
+            }
+        );
     }
 
-    public static async checkRole(interaction: SelectMenuInteraction, roles: Array<string>): Promise<void> {
+    public static async checkRole(interaction: SelectMenuInteraction,
+                                  roles: Array<string>): Promise<void> {
         const guild = interaction.guild as Guild;
         const member = interaction.member as GuildMember;
-        const separatorRole = guild.roles.cache.find(r => r.id === config.gaming.seperator_group) as Role;
+        const separatorRole = guild.roles.cache
+            .find(r => r.id === config.gaming.seperator_group) as Role;
 
         const addedRoles = [] as Array<Role>;
         const deletedRoles = [] as Array<Role>;
@@ -69,17 +74,23 @@ export class GamingManager {
         await member.roles.remove(deletedRoles);
 
         await interaction.reply({
-            content: `**Roles ajoutés**: ${addedRoles.join("")}. **Roles supprimés**: ${deletedRoles.join("")}.`,
+            content: `
+            **Roles ajoutés**: ${addedRoles.join("")}. 
+            **Roles supprimés**: ${deletedRoles.join("")}.
+            `,
             ephemeral: true
         });
     }
 
     public static async createRole(interaction: CommandInteraction, name: string): Promise<void> {
         const guild = interaction.guild as Guild;
-        //const file = editJsonFile(`../../../config.json`);
 
         if (guild.roles.cache.some(roles => roles.name.toLowerCase() === name.toLowerCase())) {
-            await interaction.reply({content: `Le rôle gaming **${name}** existe déjà.`, ephemeral: true});
+            await interaction.reply({
+                    content: `Le rôle gaming **${name}** existe déjà.`,
+                    ephemeral: true
+                }
+            );
             return;
         }
 
@@ -89,10 +100,11 @@ export class GamingManager {
         }) as Role;
 
         this.gamingRoles.push(newRole.id);
-        //await file.append("gaming.roles", newRole.id);
-        //await file.save();
 
-        await interaction.reply({content: `Le rôle gaming **${name}** vient d'être crée.`});
+        await interaction.reply({
+                content: `Le rôle gaming **${name}** vient d'être crée.`
+            }
+        );
     }
 
     private static async optionsBuilder(label: string, value: string): Promise<MessageSelectOptionData> {

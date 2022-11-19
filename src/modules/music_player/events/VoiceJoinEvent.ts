@@ -1,6 +1,6 @@
 import {BaseEvent, Event} from 'ioc:factory/Core/Event'
 import {GuildMember, User, VoiceChannel, VoiceState} from "discord.js";
-import {MusicManager} from "App/modules/music/MusicManager";
+import {MusicManager} from "App/modules/music_player/MusicManager";
 
 @Event('voiceJoin')
 export default class VoiceJoinEvent extends BaseEvent {

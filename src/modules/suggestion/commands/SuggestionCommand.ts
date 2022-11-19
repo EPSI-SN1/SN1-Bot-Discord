@@ -1,6 +1,5 @@
 import {BaseCommand, Command} from 'ioc:factory/Core/Command'
-import {CommandInteraction, MessageEmbed, TextChannel} from 'discord.js'
-import {Colors} from "@discord-factory/colorize";
+import {CommandInteraction, Guild, Message, MessageEmbed, TextChannel} from 'discord.js'
 
 const config = require('../../../../config.json')
 
@@ -26,7 +25,9 @@ export default class SuggestionCommand implements BaseCommand {
         if (suggestion != null) {
             await interaction.deferReply({ephemeral: true});
 
-            const suggestionDestination = interaction.guild?.channels.cache.get(config.suggestion.parent) as TextChannel;
+            const guild = interaction.guild as Guild;
+            const suggestionDestination = guild.channels.cache
+                .get(config.suggestion.parent) as TextChannel;
 
             const message = await suggestionDestination.send({
                 embeds: [
@@ -37,7 +38,7 @@ export default class SuggestionCommand implements BaseCommand {
                         .setFooter("/suggestion", interaction.guild?.iconURL() ?? "")
                         .setTimestamp(new Date().getTime())
                 ]
-            });
+            }) as Message;
 
             await message.react("✅");
             await message.react("❌");
@@ -49,12 +50,13 @@ export default class SuggestionCommand implements BaseCommand {
                 }
             );
 
-            // Reply to command user
             await interaction.editReply({
                 embeds: [
                     new MessageEmbed()
                         .setTitle("Suggestion envoyée")
-                        .setDescription(`Votre suggestion a été envoyée dans le salon ${suggestionDestination}`)
+                        .setDescription(`
+                        Votre suggestion a été envoyée dans le salon ${suggestionDestination}`
+                        )
                 ]
             });
         }
