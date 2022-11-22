@@ -11,9 +11,17 @@ export default class MessageEvent extends BaseEvent {
                 message.react("🇪").then(async () => {
                     message.react("🇺").then(async () => {
                         await message.react("🇷");
-                    })
-                })
-            })
+                    });
+                });
+            });
+        } else if (message.content.toLowerCase().includes("hein")) {
+            message.react("🇩").then(async () => {
+                message.react("🇪").then(async () => {
+                    message.react("🇺").then(async () => {
+                        await message.react("🇽");
+                    });
+                });
+            });
         }
     }
 }
