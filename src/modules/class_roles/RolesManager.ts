@@ -46,10 +46,36 @@ export class RolesManager {
             ],
             components: [row]
         });
+
+        const dev = new MessageButton({
+            type: "BUTTON",
+            label: "Dev",
+            customId: "dev",
+            style: "PRIMARY"
+        }) as MessageButton;
+        const network = new MessageButton({
+            type: "BUTTON",
+            label: "Réseau",
+            customId: "network",
+            style: "PRIMARY"
+        }) as MessageButton;
+
+        const rowSpe: MessageActionRow = new MessageActionRow()
+            .addComponents(dev)
+            .addComponents(network);
+
+        await interaction.channel!.send({
+            embeds: [
+                new MessageEmbed({
+                    title: "Choisir votre spécialité\n",
+                })
+            ],
+            components: [rowSpe]
+        });
     }
 
     public static async hasRole(interaction: Interaction, roleGiven: Role,
-                                remove?: boolean): Promise<boolean> {
+                                remove?: boolean, notify?: boolean): Promise<boolean> {
         if (!interaction.isButton())
             return false;
 
@@ -68,11 +94,13 @@ export class RolesManager {
                 await member.roles.remove(separatorRole);
                 return true;
             }
-            await interaction.reply({
-                    content: `Vous avez déjà le rôle ${roleGiven.name}.`,
-                    ephemeral: true
-                }
-            );
+            if (notify) {
+                await interaction.reply({
+                        content: `Vous avez déjà le rôle ${roleGiven.name}.`,
+                        ephemeral: true
+                    }
+                );
+            }
             return true;
         }
 
